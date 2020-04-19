@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () =>{
 		for (let i = 0; i < cardArray.length; i++) {
 			let card = document.createElement('img');
 			card.setAttribute('src', 'images/blank.png');
+			card.classList.add('blank');
 			card.setAttribute('data-id', i);
 			card.addEventListener('click', flipCard);
 			grid.appendChild(card);
@@ -72,13 +73,16 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 	function checkForMatch(){
 		let cards = document.querySelectorAll('img');
-		console.log(cardsChosen)
 		const optionOneId = cardsChosenId[0];
 		const optionTwoId = cardsChosenId[1];
-		if(cardsChosen[0] === cardsChosen[1]){
+		if(cardsChosen[0] === cardsChosen[1] && cardsChosenId[0] !== cardsChosenId[1]){
 			alert('You found a match!!!');
 			cards[optionOneId].setAttribute('src', 'images/white.png')
+			cards[optionOneId].classList.add('white');
+			cards[optionOneId].classList.remove('blank');
 			cards[optionTwoId].setAttribute('src', 'images/white.png')
+			cards[optionTwoId].classList.add('white');
+			cards[optionTwoId].classList.remove('blank');
 			cardsWon.push(cardsChosen)
 		}else{
 			cards[optionOneId].setAttribute('src', 'images/blank.png')
@@ -95,9 +99,12 @@ document.addEventListener('DOMContentLoaded', () =>{
 
 	function flipCard (e) {
 		let cardId = e.target.getAttribute('data-id');
-		cardsChosen.push(cardArray[cardId].name);
-		cardsChosenId.push(cardId);
-		e.target.setAttribute('src', cardArray[cardId].img);
+		if((cardsChosen.length === 0 || (cardsChosen.length ===1) && cardsChosenId[0] !== cardId) && !e.target.classList.contains('white')){
+			cardsChosen.push(cardArray[cardId].name);
+			cardsChosenId.push(cardId);
+			e.target.setAttribute('src', cardArray[cardId].img);
+		}
+
 		if (cardsChosen.length === 2){
 			setTimeout(checkForMatch, 500)
 		}

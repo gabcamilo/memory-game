@@ -4,3 +4,17 @@
 	height: 300px;
 	width: 400px;
 }
+
+.square {
+	height: 100px;
+	width: 100px;
+}
+
+.blank {
+	background-image: url('images/blank.png');
+	background-size: cover;
+}
+
+.white {
+	background-color: white;
+}
